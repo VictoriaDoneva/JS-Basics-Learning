@@ -1,60 +1,53 @@
-function vacation(input) {
-let i = 0;
 
-let moneyNeeded = Number(input[i]);
-i++;
+//          Friday   Saturday    Sunday
+//Students  8.45     9.80        10.46
+//Business 10.90    15.60       16
+//Regular  15       20          22.50
 
-let moneyAvailable = Number(input[i]);
-i++;
+function vacation(count, type, day) {
+    let singularPrice = 0;
 
-let action = input[i];
-i++;
+    switch (day) {
+        case `Friday`:
+            if (type == `Students`) {
+                singularPrice = 8.45;
+            } else if (type == `Business`) {
+                singularPrice = 10.90;
+            } else if (type == `Regular`) {
+                singularPrice = 15;
+            }
 
-let sum = Number(input[i]);
-i++;
-
-let daysSpentCount = 0;
-let totalDays = 0;
-
-while (moneyAvailable < moneyNeeded) {
-    totalDays++;
-
-    if (action === `spend`) {
-        if (sum > moneyAvailable) {
-            moneyAvailable = 0;
-        } else {
-            moneyAvailable -= sum;
-        }
-
-        daysSpentCount++;
-    
-    } else {
-        moneyAvailable += sum;
-        daysSpentCount = 0;
+        break;
+        case `Saturday`:
+            if (type == `Students`) {
+                singularPrice = 9.80;
+            } else if (type == `Business`) {
+                singularPrice = 15.60;
+            } else if (type == `Regular`) {
+                singularPrice = 20;
+            }
+        break;
+        case `Sunday`:
+            if (type == `Students`) {
+                singularPrice = 10.46;
+            } else if (type == `Business`) {
+                singularPrice = 16;
+            } else if (type == `Regular`) {
+                singularPrice = 22.50;
+            }
+        break;
     }
-    if (daysSpentCount === 5) {
-        console.log(`You can't save the money.`);
-        console.log(`${totalDays}`);
-        return;
+
+    let totalPrice = count * singularPrice;
+
+    if (type == `Students`&& count >= 30) {
+        totalPrice *= 0.85;
+    } else if (type == `Business`&& count >= 100) {
+        let discountedPrice = 10 * singularPrice;
+        totalPrice -= discountedPrice;
+    } else if (type == `Regular`&& (count >= 10 && count <= 20)) {
+        totalPrice *= 0.95;
     }
-
-    action = input[i];
-    i++;
-
-    sum = Number(input[i]);
-    i++;
+    console.log(`Total price: ${totalPrice.toFixed(2)}`)
 }
-console.log(`You saved the money for ${totalDays} days.`)
-}
-vacation(["250",
-"150",
-"spend",
-"50",
-"spend",
-"50",
-"save",
-"100",
-"save",
-"100"])
-
-
+vacation(30, "Students", "Sunday");
